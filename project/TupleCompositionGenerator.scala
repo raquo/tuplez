@@ -108,7 +108,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, splitPriorityAt: I
     }
   }
 
-  def generatePri7(): Unit = {
+  def generateSizeAndScalar(minArity: Int, maxArity: Int, priority: Int, extendsPriority: Int): Unit = {
     def forSizeAndScalar(size: Int): Unit = {
       val left = tupleType(size - 1)
       newComposition(
@@ -135,58 +135,71 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, splitPriorityAt: I
       )
     }
 
-    enter("""trait Composition_Pri7 extends Composition_Pri5 {""")("}") {
+    enter(s"""trait Composition_Pri${priority} extends Composition_Pri${extendsPriority} {""")("}") {
       println()
       for (size <- 3 to to) {
-        forSizeAndScalar(size)
-        if (generatePrepends) {
-          forScalarAndSize(size)
+        if (size >= minArity && size <= maxArity) {
+          forSizeAndScalar(size)
+          if (generatePrepends) {
+            forScalarAndSize(size)
+          }
         }
       }
     }
   }
 
-  def forSizeAnd1(size: Int): Unit = {
-    val left = tupleType(size)
-    newComposition(
-      name = s"T${size}+T1",
-      typeParams = s"${left}, R",
-      L = s"(${left})",
-      R = s"Tuple1[R]",
-      O = s"(${left}, R)",
-      compose = s"(${tupleAccess(size, "l")}, r._1)",
-      decompose = s"((${tupleAccess(1, size, "c")}), Tuple1(c._${size + 1}))"
-    )
+  def generatePri7(): Unit = {
+    if (splitPriorityAt < to) {
+      generateSizeAndScalar(minArity = splitPriorityAt + 1, maxArity = Int.MaxValue, priority = 6, extendsPriority = 5)
+      println()
+      generateSizeAndScalar(minArity = 1, maxArity = splitPriorityAt, priority = 7, extendsPriority = 6)
+    } else {
+      generateSizeAndScalar(minArity = 1, maxArity = Int.MaxValue, priority = 7, extendsPriority = 5)
+    }
   }
 
-  def for1AndSize(size: Int): Unit = {
-    val right = tupleType(size)
-    newComposition(
-      name = s"T1+T${size}",
-      typeParams = s"L, ${right}",
-      L = s"Tuple1[L]",
-      R = s"(${right})",
-      O = s"(L, ${right})",
-      compose = s"(l._1, ${tupleAccess(size, "r")})",
-      decompose = s"(Tuple1(c._1), (${tupleAccess(2, size + 1, "c")}))"
-    )
-  }
+  def generateHighPriority(minArity: Int, maxArity: Int, priority: Int, extendsPriority: Int): Unit = {
 
-  def forSizes(size1: Int, size2: Int): Unit = {
-    val left  = tupleType(size1, "L")
-    val right = tupleType(size2, "R")
-    newComposition(
-      name = s"T${size1}+T${size2}",
-      typeParams = s"${left}, ${right}",
-      L = s"(${left})",
-      R = s"(${right})",
-      O = s"(${left}, ${right})",
-      compose = s"(${tupleAccess(size1, "l")}, ${tupleAccess(size2, "r")})",
-      decompose = s"((${tupleAccess(1, size1, "c")}), (${tupleAccess(size1 + 1, size1 + size2, "c")}))"
-    )
-  }
+    def forSizeAnd1(size: Int): Unit = {
+      val left = tupleType(size)
+      newComposition(
+        name = s"T${size}+T1",
+        typeParams = s"${left}, R",
+        L = s"(${left})",
+        R = s"Tuple1[R]",
+        O = s"(${left}, R)",
+        compose = s"(${tupleAccess(size, "l")}, r._1)",
+        decompose = s"((${tupleAccess(1, size, "c")}), Tuple1(c._${size + 1}))"
+      )
+    }
 
-  def generateHighPriority(minArity: Int, maxArity: Int, generateConcats: Boolean, priority: Int, extendsPriority: Int): Unit = {
+    def for1AndSize(size: Int): Unit = {
+      val right = tupleType(size)
+      newComposition(
+        name = s"T1+T${size}",
+        typeParams = s"L, ${right}",
+        L = s"Tuple1[L]",
+        R = s"(${right})",
+        O = s"(L, ${right})",
+        compose = s"(l._1, ${tupleAccess(size, "r")})",
+        decompose = s"(Tuple1(c._1), (${tupleAccess(2, size + 1, "c")}))"
+      )
+    }
+
+    def forSizes(size1: Int, size2: Int): Unit = {
+      val left  = tupleType(size1, "L")
+      val right = tupleType(size2, "R")
+      newComposition(
+        name = s"T${size1}+T${size2}",
+        typeParams = s"${left}, ${right}",
+        L = s"(${left})",
+        R = s"(${right})",
+        O = s"(${left}, ${right})",
+        compose = s"(${tupleAccess(size1, "l")}, ${tupleAccess(size2, "r")})",
+        decompose = s"((${tupleAccess(1, size1, "c")}), (${tupleAccess(size1 + 1, size1 + size2, "c")}))"
+      )
+    }
+
     enter(s"""trait Composition_Pri${priority} extends Composition_Pri${extendsPriority} {""")("}") {
       println()
       if (minArity <= 2) {
@@ -247,11 +260,11 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, splitPriorityAt: I
 
   def generatePri10(): Unit = {
     if (splitPriorityAt < to) {
-      generateHighPriority(minArity = splitPriorityAt + 1, maxArity = Int.MaxValue, generateConcats = generateConcats, priority = 9, extendsPriority = 7)
+      generateHighPriority(minArity = splitPriorityAt + 1, maxArity = Int.MaxValue, priority = 9, extendsPriority = 7)
       println()
-      generateHighPriority(minArity = 1, maxArity = splitPriorityAt, generateConcats = generateConcats, priority = 10, extendsPriority = 9)
+      generateHighPriority(minArity = 1, maxArity = splitPriorityAt, priority = 10, extendsPriority = 9)
     } else {
-      generateHighPriority(minArity = 1, maxArity = Int.MaxValue, generateConcats = generateConcats, priority = 10, extendsPriority = 7)
+      generateHighPriority(minArity = 1, maxArity = Int.MaxValue, priority = 10, extendsPriority = 7)
     }
   }
 

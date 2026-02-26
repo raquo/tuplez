@@ -52,52 +52,8 @@ trait Composition_Pri5 extends Composition_Pri0{
   }
 }
 
-trait Composition_Pri7 extends Composition_Pri5 {
+trait Composition_Pri6 extends Composition_Pri5 {
 
-  implicit def `T2+scalar`[T1, T2, R]: Composition.Aux[(T1, T2), R, (T1, T2, R)] = new Composition[(T1, T2), R] {
-
-    override type Composed = (T1, T2, R)
-
-    def compose(l: (T1, T2), r: R): (T1, T2, R) =
-      (l._1, l._2, r)
-    
-    def decompose(c: (T1, T2, R)): ((T1, T2), R) =
-      ((c._1, c._2), c._3)
-    
-  }
-  implicit def `T3+scalar`[T1, T2, T3, R]: Composition.Aux[(T1, T2, T3), R, (T1, T2, T3, R)] = new Composition[(T1, T2, T3), R] {
-
-    override type Composed = (T1, T2, T3, R)
-
-    def compose(l: (T1, T2, T3), r: R): (T1, T2, T3, R) =
-      (l._1, l._2, l._3, r)
-    
-    def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), R) =
-      ((c._1, c._2, c._3), c._4)
-    
-  }
-  implicit def `T4+scalar`[T1, T2, T3, T4, R]: Composition.Aux[(T1, T2, T3, T4), R, (T1, T2, T3, T4, R)] = new Composition[(T1, T2, T3, T4), R] {
-
-    override type Composed = (T1, T2, T3, T4, R)
-
-    def compose(l: (T1, T2, T3, T4), r: R): (T1, T2, T3, T4, R) =
-      (l._1, l._2, l._3, l._4, r)
-    
-    def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), R) =
-      ((c._1, c._2, c._3, c._4), c._5)
-    
-  }
-  implicit def `T5+scalar`[T1, T2, T3, T4, T5, R]: Composition.Aux[(T1, T2, T3, T4, T5), R, (T1, T2, T3, T4, T5, R)] = new Composition[(T1, T2, T3, T4, T5), R] {
-
-    override type Composed = (T1, T2, T3, T4, T5, R)
-
-    def compose(l: (T1, T2, T3, T4, T5), r: R): (T1, T2, T3, T4, T5, R) =
-      (l._1, l._2, l._3, l._4, l._5, r)
-    
-    def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), R) =
-      ((c._1, c._2, c._3, c._4, c._5), c._6)
-    
-  }
   implicit def `T6+scalar`[T1, T2, T3, T4, T5, T6, R]: Composition.Aux[(T1, T2, T3, T4, T5, T6), R, (T1, T2, T3, T4, T5, T6, R)] = new Composition[(T1, T2, T3, T4, T5, T6), R] {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, R)
@@ -272,6 +228,54 @@ trait Composition_Pri7 extends Composition_Pri5 {
     
     def decompose(c: (T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21, R)): ((T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15, T16, T17, T18, T19, T20, T21), R) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21), c._22)
+    
+  }
+}
+
+trait Composition_Pri7 extends Composition_Pri6 {
+
+  implicit def `T2+scalar`[T1, T2, R]: Composition.Aux[(T1, T2), R, (T1, T2, R)] = new Composition[(T1, T2), R] {
+
+    override type Composed = (T1, T2, R)
+
+    def compose(l: (T1, T2), r: R): (T1, T2, R) =
+      (l._1, l._2, r)
+    
+    def decompose(c: (T1, T2, R)): ((T1, T2), R) =
+      ((c._1, c._2), c._3)
+    
+  }
+  implicit def `T3+scalar`[T1, T2, T3, R]: Composition.Aux[(T1, T2, T3), R, (T1, T2, T3, R)] = new Composition[(T1, T2, T3), R] {
+
+    override type Composed = (T1, T2, T3, R)
+
+    def compose(l: (T1, T2, T3), r: R): (T1, T2, T3, R) =
+      (l._1, l._2, l._3, r)
+    
+    def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), R) =
+      ((c._1, c._2, c._3), c._4)
+    
+  }
+  implicit def `T4+scalar`[T1, T2, T3, T4, R]: Composition.Aux[(T1, T2, T3, T4), R, (T1, T2, T3, T4, R)] = new Composition[(T1, T2, T3, T4), R] {
+
+    override type Composed = (T1, T2, T3, T4, R)
+
+    def compose(l: (T1, T2, T3, T4), r: R): (T1, T2, T3, T4, R) =
+      (l._1, l._2, l._3, l._4, r)
+    
+    def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), R) =
+      ((c._1, c._2, c._3, c._4), c._5)
+    
+  }
+  implicit def `T5+scalar`[T1, T2, T3, T4, T5, R]: Composition.Aux[(T1, T2, T3, T4, T5), R, (T1, T2, T3, T4, T5, R)] = new Composition[(T1, T2, T3, T4, T5), R] {
+
+    override type Composed = (T1, T2, T3, T4, T5, R)
+
+    def compose(l: (T1, T2, T3, T4, T5), r: R): (T1, T2, T3, T4, T5, R) =
+      (l._1, l._2, l._3, l._4, l._5, r)
+    
+    def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), R) =
+      ((c._1, c._2, c._3, c._4, c._5), c._6)
     
   }
 }
