@@ -9,7 +9,7 @@ inThisBuild(
     developers               := List(Developer("yurique", "Iurii Malchenko", "i@yurique.com", url("https://github.com/yurique"))),
     scmInfo                  := Some(ScmInfo(url("https://github.com/tulz-app/tuplez"), "scm:git@github.com/tulz-app/tuplez.git")),
     (Test / publishArtifact) := false,
-    scalaVersion             := ScalaVersions.v213,
+    scalaVersion             := ScalaVersions.v3,
     crossScalaVersions := Seq(
       ScalaVersions.v3,
       ScalaVersions.v213,
@@ -39,15 +39,18 @@ lazy val `tuplez-full` =
     .crossType(CrossType.Pure)
     .in(file("modules/full"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-full",
       Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
-        )
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 22, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
+          case Some((3, _)) =>
+            Seq.empty
+          case _ => Seq.empty
+        }
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
@@ -62,15 +65,18 @@ lazy val `tuplez-full-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/full-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-full-light",
       Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
-        )
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 10, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
+          case Some((3, _)) =>
+            Seq.empty
+          case _ => Seq.empty
+        }
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
@@ -85,15 +91,18 @@ lazy val `tuplez-basic` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-basic",
       Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
-        )
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 22, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
+          case Some((3, _)) =>
+            Seq.empty
+          case _ => Seq.empty
+        }
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
@@ -108,15 +117,18 @@ lazy val `tuplez-basic-light` =
     .crossType(CrossType.Pure)
     .in(file("modules/basic-light"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
       name := "tuplez-basic-light",
       Compile / sourceGenerators += Def.task {
-        Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
-        )
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((2, _)) =>
+            new TupleCompositionGenerator((Compile / sharedScala2Source).value, to = 10, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
+          case Some((3, _)) =>
+            Seq.empty
+          case _ => Seq.empty
+        }
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
@@ -131,7 +143,6 @@ lazy val `tuplez-apply` =
     .crossType(CrossType.Pure)
     .in(file("modules/apply"))
     .jsConfigure(_.enablePlugins(ScalaJSJUnitPlugin))
-    .settings(ScalaOptions.fixOptions)
     .settings(commonSettings)
     .jsSettings(commonJsSettings)
     .settings(
@@ -156,7 +167,7 @@ lazy val commonSettings = Seq(
     ("com.github.sbt" % "junit-interface" % "0.13.3" % Test).exclude("junit", "junit-dep")
   ),
   scalacOptions := scalacOptions.value.filterNot(_ == "-Wdead-code"),
-//  scalacOptions := scalacOptions.value.filterNot(_ == "-Xfatal-warnings")
+  Test / scalacOptions += "-Wconf:msg=a type was inferred to be `Any`:s",
 )
 
 lazy val commonJsSettings = Seq(

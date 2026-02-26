@@ -12,6 +12,6 @@ addSbtPlugin("com.github.sbt" % "sbt-github-actions" % "0.29.0")
 
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.11.2")
 
-//addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.4.1")
+addSbtPlugin("org.typelevel" % "sbt-tpolecat" % "0.5.3")
 
 addSbtPlugin("ch.epfl.scala" % "sbt-version-policy" % "3.2.1")
