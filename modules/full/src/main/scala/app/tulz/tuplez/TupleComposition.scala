@@ -496,108 +496,8 @@ trait Composition_Pri7 extends Composition_Pri5 {
   }
 }
 
-trait Composition_Pri10 extends Composition_Pri7 {
+trait Composition_Pri9 extends Composition_Pri7 {
 
-  implicit def `T1+T1`[L, R]: Composition.Aux[Tuple1[L], Tuple1[R], Tuple2[L, R]] = new Composition[Tuple1[L], Tuple1[R]] {
-
-    override type Composed = Tuple2[L, R]
-
-    def compose(l: Tuple1[L], r: Tuple1[R]): Tuple2[L, R] =
-      (l._1, r._1)
-    
-    def decompose(c: Tuple2[L, R]): (Tuple1[L], Tuple1[R]) =
-      (Tuple1(c._1), Tuple1(c._2))
-    
-  }
-
-  implicit def `T2+T1`[T1, T2, R]: Composition.Aux[(T1, T2), Tuple1[R], (T1, T2, R)] = new Composition[(T1, T2), Tuple1[R]] {
-
-    override type Composed = (T1, T2, R)
-
-    def compose(l: (T1, T2), r: Tuple1[R]): (T1, T2, R) =
-      (l._1, l._2, r._1)
-    
-    def decompose(c: (T1, T2, R)): ((T1, T2), Tuple1[R]) =
-      ((c._1, c._2), Tuple1(c._3))
-    
-  }
-  implicit def `T1+T2`[L, T1, T2]: Composition.Aux[Tuple1[L], (T1, T2), (L, T1, T2)] = new Composition[Tuple1[L], (T1, T2)] {
-
-    override type Composed = (L, T1, T2)
-
-    def compose(l: Tuple1[L], r: (T1, T2)): (L, T1, T2) =
-      (l._1, r._1, r._2)
-    
-    def decompose(c: (L, T1, T2)): (Tuple1[L], (T1, T2)) =
-      (Tuple1(c._1), (c._2, c._3))
-    
-  }
-  implicit def `T3+T1`[T1, T2, T3, R]: Composition.Aux[(T1, T2, T3), Tuple1[R], (T1, T2, T3, R)] = new Composition[(T1, T2, T3), Tuple1[R]] {
-
-    override type Composed = (T1, T2, T3, R)
-
-    def compose(l: (T1, T2, T3), r: Tuple1[R]): (T1, T2, T3, R) =
-      (l._1, l._2, l._3, r._1)
-    
-    def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), Tuple1[R]) =
-      ((c._1, c._2, c._3), Tuple1(c._4))
-    
-  }
-  implicit def `T1+T3`[L, T1, T2, T3]: Composition.Aux[Tuple1[L], (T1, T2, T3), (L, T1, T2, T3)] = new Composition[Tuple1[L], (T1, T2, T3)] {
-
-    override type Composed = (L, T1, T2, T3)
-
-    def compose(l: Tuple1[L], r: (T1, T2, T3)): (L, T1, T2, T3) =
-      (l._1, r._1, r._2, r._3)
-    
-    def decompose(c: (L, T1, T2, T3)): (Tuple1[L], (T1, T2, T3)) =
-      (Tuple1(c._1), (c._2, c._3, c._4))
-    
-  }
-  implicit def `T4+T1`[T1, T2, T3, T4, R]: Composition.Aux[(T1, T2, T3, T4), Tuple1[R], (T1, T2, T3, T4, R)] = new Composition[(T1, T2, T3, T4), Tuple1[R]] {
-
-    override type Composed = (T1, T2, T3, T4, R)
-
-    def compose(l: (T1, T2, T3, T4), r: Tuple1[R]): (T1, T2, T3, T4, R) =
-      (l._1, l._2, l._3, l._4, r._1)
-    
-    def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), Tuple1[R]) =
-      ((c._1, c._2, c._3, c._4), Tuple1(c._5))
-    
-  }
-  implicit def `T1+T4`[L, T1, T2, T3, T4]: Composition.Aux[Tuple1[L], (T1, T2, T3, T4), (L, T1, T2, T3, T4)] = new Composition[Tuple1[L], (T1, T2, T3, T4)] {
-
-    override type Composed = (L, T1, T2, T3, T4)
-
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4)): (L, T1, T2, T3, T4) =
-      (l._1, r._1, r._2, r._3, r._4)
-    
-    def decompose(c: (L, T1, T2, T3, T4)): (Tuple1[L], (T1, T2, T3, T4)) =
-      (Tuple1(c._1), (c._2, c._3, c._4, c._5))
-    
-  }
-  implicit def `T5+T1`[T1, T2, T3, T4, T5, R]: Composition.Aux[(T1, T2, T3, T4, T5), Tuple1[R], (T1, T2, T3, T4, T5, R)] = new Composition[(T1, T2, T3, T4, T5), Tuple1[R]] {
-
-    override type Composed = (T1, T2, T3, T4, T5, R)
-
-    def compose(l: (T1, T2, T3, T4, T5), r: Tuple1[R]): (T1, T2, T3, T4, T5, R) =
-      (l._1, l._2, l._3, l._4, l._5, r._1)
-    
-    def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), Tuple1[R]) =
-      ((c._1, c._2, c._3, c._4, c._5), Tuple1(c._6))
-    
-  }
-  implicit def `T1+T5`[L, T1, T2, T3, T4, T5]: Composition.Aux[Tuple1[L], (T1, T2, T3, T4, T5), (L, T1, T2, T3, T4, T5)] = new Composition[Tuple1[L], (T1, T2, T3, T4, T5)] {
-
-    override type Composed = (L, T1, T2, T3, T4, T5)
-
-    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5)): (L, T1, T2, T3, T4, T5) =
-      (l._1, r._1, r._2, r._3, r._4, r._5)
-    
-    def decompose(c: (L, T1, T2, T3, T4, T5)): (Tuple1[L], (T1, T2, T3, T4, T5)) =
-      (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6))
-    
-  }
   implicit def `T6+T1`[T1, T2, T3, T4, T5, T6, R]: Composition.Aux[(T1, T2, T3, T4, T5, T6), Tuple1[R], (T1, T2, T3, T4, T5, T6, R)] = new Composition[(T1, T2, T3, T4, T5, T6), Tuple1[R]] {
 
     override type Composed = (T1, T2, T3, T4, T5, T6, R)
@@ -950,39 +850,6 @@ trait Composition_Pri10 extends Composition_Pri7 {
       (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
-  implicit def `T2+T2`[L1, L2, R1, R2]: Composition.Aux[(L1, L2), (R1, R2), (L1, L2, R1, R2)] = new Composition[(L1, L2), (R1, R2)] {
-
-    override type Composed = (L1, L2, R1, R2)
-
-    def compose(l: (L1, L2), r: (R1, R2)): (L1, L2, R1, R2) =
-      (l._1, l._2, r._1, r._2)
-    
-    def decompose(c: (L1, L2, R1, R2)): ((L1, L2), (R1, R2)) =
-      ((c._1, c._2), (c._3, c._4))
-    
-  }
-  implicit def `T2+T3`[L1, L2, R1, R2, R3]: Composition.Aux[(L1, L2), (R1, R2, R3), (L1, L2, R1, R2, R3)] = new Composition[(L1, L2), (R1, R2, R3)] {
-
-    override type Composed = (L1, L2, R1, R2, R3)
-
-    def compose(l: (L1, L2), r: (R1, R2, R3)): (L1, L2, R1, R2, R3) =
-      (l._1, l._2, r._1, r._2, r._3)
-    
-    def decompose(c: (L1, L2, R1, R2, R3)): ((L1, L2), (R1, R2, R3)) =
-      ((c._1, c._2), (c._3, c._4, c._5))
-    
-  }
-  implicit def `T2+T4`[L1, L2, R1, R2, R3, R4]: Composition.Aux[(L1, L2), (R1, R2, R3, R4), (L1, L2, R1, R2, R3, R4)] = new Composition[(L1, L2), (R1, R2, R3, R4)] {
-
-    override type Composed = (L1, L2, R1, R2, R3, R4)
-
-    def compose(l: (L1, L2), r: (R1, R2, R3, R4)): (L1, L2, R1, R2, R3, R4) =
-      (l._1, l._2, r._1, r._2, r._3, r._4)
-    
-    def decompose(c: (L1, L2, R1, R2, R3, R4)): ((L1, L2), (R1, R2, R3, R4)) =
-      ((c._1, c._2), (c._3, c._4, c._5, c._6))
-    
-  }
   implicit def `T2+T5`[L1, L2, R1, R2, R3, R4, R5]: Composition.Aux[(L1, L2), (R1, R2, R3, R4, R5), (L1, L2, R1, R2, R3, R4, R5)] = new Composition[(L1, L2), (R1, R2, R3, R4, R5)] {
 
     override type Composed = (L1, L2, R1, R2, R3, R4, R5)
@@ -1159,28 +1026,6 @@ trait Composition_Pri10 extends Composition_Pri7 {
       ((c._1, c._2), (c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
     
   }
-  implicit def `T3+T2`[L1, L2, L3, R1, R2]: Composition.Aux[(L1, L2, L3), (R1, R2), (L1, L2, L3, R1, R2)] = new Composition[(L1, L2, L3), (R1, R2)] {
-
-    override type Composed = (L1, L2, L3, R1, R2)
-
-    def compose(l: (L1, L2, L3), r: (R1, R2)): (L1, L2, L3, R1, R2) =
-      (l._1, l._2, l._3, r._1, r._2)
-    
-    def decompose(c: (L1, L2, L3, R1, R2)): ((L1, L2, L3), (R1, R2)) =
-      ((c._1, c._2, c._3), (c._4, c._5))
-    
-  }
-  implicit def `T3+T3`[L1, L2, L3, R1, R2, R3]: Composition.Aux[(L1, L2, L3), (R1, R2, R3), (L1, L2, L3, R1, R2, R3)] = new Composition[(L1, L2, L3), (R1, R2, R3)] {
-
-    override type Composed = (L1, L2, L3, R1, R2, R3)
-
-    def compose(l: (L1, L2, L3), r: (R1, R2, R3)): (L1, L2, L3, R1, R2, R3) =
-      (l._1, l._2, l._3, r._1, r._2, r._3)
-    
-    def decompose(c: (L1, L2, L3, R1, R2, R3)): ((L1, L2, L3), (R1, R2, R3)) =
-      ((c._1, c._2, c._3), (c._4, c._5, c._6))
-    
-  }
   implicit def `T3+T4`[L1, L2, L3, R1, R2, R3, R4]: Composition.Aux[(L1, L2, L3), (R1, R2, R3, R4), (L1, L2, L3, R1, R2, R3, R4)] = new Composition[(L1, L2, L3), (R1, R2, R3, R4)] {
 
     override type Composed = (L1, L2, L3, R1, R2, R3, R4)
@@ -1355,17 +1200,6 @@ trait Composition_Pri10 extends Composition_Pri7 {
     
     def decompose(c: (L1, L2, L3, R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)): ((L1, L2, L3), (R1, R2, R3, R4, R5, R6, R7, R8, R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19)) =
       ((c._1, c._2, c._3), (c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20, c._21, c._22))
-    
-  }
-  implicit def `T4+T2`[L1, L2, L3, L4, R1, R2]: Composition.Aux[(L1, L2, L3, L4), (R1, R2), (L1, L2, L3, L4, R1, R2)] = new Composition[(L1, L2, L3, L4), (R1, R2)] {
-
-    override type Composed = (L1, L2, L3, L4, R1, R2)
-
-    def compose(l: (L1, L2, L3, L4), r: (R1, R2)): (L1, L2, L3, L4, R1, R2) =
-      (l._1, l._2, l._3, l._4, r._1, r._2)
-    
-    def decompose(c: (L1, L2, L3, L4, R1, R2)): ((L1, L2, L3, L4), (R1, R2)) =
-      ((c._1, c._2, c._3, c._4), (c._5, c._6))
     
   }
   implicit def `T4+T3`[L1, L2, L3, L4, R1, R2, R3]: Composition.Aux[(L1, L2, L3, L4), (R1, R2, R3), (L1, L2, L3, L4, R1, R2, R3)] = new Composition[(L1, L2, L3, L4), (R1, R2, R3)] {
@@ -3038,6 +2872,176 @@ trait Composition_Pri10 extends Composition_Pri7 {
     
     def decompose(c: (L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20, R1, R2)): ((L1, L2, L3, L4, L5, L6, L7, L8, L9, L10, L11, L12, L13, L14, L15, L16, L17, L18, L19, L20), (R1, R2)) =
       ((c._1, c._2, c._3, c._4, c._5, c._6, c._7, c._8, c._9, c._10, c._11, c._12, c._13, c._14, c._15, c._16, c._17, c._18, c._19, c._20), (c._21, c._22))
+    
+  }
+}
+
+trait Composition_Pri10 extends Composition_Pri9 {
+
+  implicit def `T1+T1`[L, R]: Composition.Aux[Tuple1[L], Tuple1[R], Tuple2[L, R]] = new Composition[Tuple1[L], Tuple1[R]] {
+
+    override type Composed = Tuple2[L, R]
+
+    def compose(l: Tuple1[L], r: Tuple1[R]): Tuple2[L, R] =
+      (l._1, r._1)
+    
+    def decompose(c: Tuple2[L, R]): (Tuple1[L], Tuple1[R]) =
+      (Tuple1(c._1), Tuple1(c._2))
+    
+  }
+
+  implicit def `T2+T1`[T1, T2, R]: Composition.Aux[(T1, T2), Tuple1[R], (T1, T2, R)] = new Composition[(T1, T2), Tuple1[R]] {
+
+    override type Composed = (T1, T2, R)
+
+    def compose(l: (T1, T2), r: Tuple1[R]): (T1, T2, R) =
+      (l._1, l._2, r._1)
+    
+    def decompose(c: (T1, T2, R)): ((T1, T2), Tuple1[R]) =
+      ((c._1, c._2), Tuple1(c._3))
+    
+  }
+  implicit def `T1+T2`[L, T1, T2]: Composition.Aux[Tuple1[L], (T1, T2), (L, T1, T2)] = new Composition[Tuple1[L], (T1, T2)] {
+
+    override type Composed = (L, T1, T2)
+
+    def compose(l: Tuple1[L], r: (T1, T2)): (L, T1, T2) =
+      (l._1, r._1, r._2)
+    
+    def decompose(c: (L, T1, T2)): (Tuple1[L], (T1, T2)) =
+      (Tuple1(c._1), (c._2, c._3))
+    
+  }
+  implicit def `T3+T1`[T1, T2, T3, R]: Composition.Aux[(T1, T2, T3), Tuple1[R], (T1, T2, T3, R)] = new Composition[(T1, T2, T3), Tuple1[R]] {
+
+    override type Composed = (T1, T2, T3, R)
+
+    def compose(l: (T1, T2, T3), r: Tuple1[R]): (T1, T2, T3, R) =
+      (l._1, l._2, l._3, r._1)
+    
+    def decompose(c: (T1, T2, T3, R)): ((T1, T2, T3), Tuple1[R]) =
+      ((c._1, c._2, c._3), Tuple1(c._4))
+    
+  }
+  implicit def `T1+T3`[L, T1, T2, T3]: Composition.Aux[Tuple1[L], (T1, T2, T3), (L, T1, T2, T3)] = new Composition[Tuple1[L], (T1, T2, T3)] {
+
+    override type Composed = (L, T1, T2, T3)
+
+    def compose(l: Tuple1[L], r: (T1, T2, T3)): (L, T1, T2, T3) =
+      (l._1, r._1, r._2, r._3)
+    
+    def decompose(c: (L, T1, T2, T3)): (Tuple1[L], (T1, T2, T3)) =
+      (Tuple1(c._1), (c._2, c._3, c._4))
+    
+  }
+  implicit def `T4+T1`[T1, T2, T3, T4, R]: Composition.Aux[(T1, T2, T3, T4), Tuple1[R], (T1, T2, T3, T4, R)] = new Composition[(T1, T2, T3, T4), Tuple1[R]] {
+
+    override type Composed = (T1, T2, T3, T4, R)
+
+    def compose(l: (T1, T2, T3, T4), r: Tuple1[R]): (T1, T2, T3, T4, R) =
+      (l._1, l._2, l._3, l._4, r._1)
+    
+    def decompose(c: (T1, T2, T3, T4, R)): ((T1, T2, T3, T4), Tuple1[R]) =
+      ((c._1, c._2, c._3, c._4), Tuple1(c._5))
+    
+  }
+  implicit def `T1+T4`[L, T1, T2, T3, T4]: Composition.Aux[Tuple1[L], (T1, T2, T3, T4), (L, T1, T2, T3, T4)] = new Composition[Tuple1[L], (T1, T2, T3, T4)] {
+
+    override type Composed = (L, T1, T2, T3, T4)
+
+    def compose(l: Tuple1[L], r: (T1, T2, T3, T4)): (L, T1, T2, T3, T4) =
+      (l._1, r._1, r._2, r._3, r._4)
+    
+    def decompose(c: (L, T1, T2, T3, T4)): (Tuple1[L], (T1, T2, T3, T4)) =
+      (Tuple1(c._1), (c._2, c._3, c._4, c._5))
+    
+  }
+  implicit def `T5+T1`[T1, T2, T3, T4, T5, R]: Composition.Aux[(T1, T2, T3, T4, T5), Tuple1[R], (T1, T2, T3, T4, T5, R)] = new Composition[(T1, T2, T3, T4, T5), Tuple1[R]] {
+
+    override type Composed = (T1, T2, T3, T4, T5, R)
+
+    def compose(l: (T1, T2, T3, T4, T5), r: Tuple1[R]): (T1, T2, T3, T4, T5, R) =
+      (l._1, l._2, l._3, l._4, l._5, r._1)
+    
+    def decompose(c: (T1, T2, T3, T4, T5, R)): ((T1, T2, T3, T4, T5), Tuple1[R]) =
+      ((c._1, c._2, c._3, c._4, c._5), Tuple1(c._6))
+    
+  }
+  implicit def `T1+T5`[L, T1, T2, T3, T4, T5]: Composition.Aux[Tuple1[L], (T1, T2, T3, T4, T5), (L, T1, T2, T3, T4, T5)] = new Composition[Tuple1[L], (T1, T2, T3, T4, T5)] {
+
+    override type Composed = (L, T1, T2, T3, T4, T5)
+
+    def compose(l: Tuple1[L], r: (T1, T2, T3, T4, T5)): (L, T1, T2, T3, T4, T5) =
+      (l._1, r._1, r._2, r._3, r._4, r._5)
+    
+    def decompose(c: (L, T1, T2, T3, T4, T5)): (Tuple1[L], (T1, T2, T3, T4, T5)) =
+      (Tuple1(c._1), (c._2, c._3, c._4, c._5, c._6))
+    
+  }
+  implicit def `T2+T2`[L1, L2, R1, R2]: Composition.Aux[(L1, L2), (R1, R2), (L1, L2, R1, R2)] = new Composition[(L1, L2), (R1, R2)] {
+
+    override type Composed = (L1, L2, R1, R2)
+
+    def compose(l: (L1, L2), r: (R1, R2)): (L1, L2, R1, R2) =
+      (l._1, l._2, r._1, r._2)
+    
+    def decompose(c: (L1, L2, R1, R2)): ((L1, L2), (R1, R2)) =
+      ((c._1, c._2), (c._3, c._4))
+    
+  }
+  implicit def `T2+T3`[L1, L2, R1, R2, R3]: Composition.Aux[(L1, L2), (R1, R2, R3), (L1, L2, R1, R2, R3)] = new Composition[(L1, L2), (R1, R2, R3)] {
+
+    override type Composed = (L1, L2, R1, R2, R3)
+
+    def compose(l: (L1, L2), r: (R1, R2, R3)): (L1, L2, R1, R2, R3) =
+      (l._1, l._2, r._1, r._2, r._3)
+    
+    def decompose(c: (L1, L2, R1, R2, R3)): ((L1, L2), (R1, R2, R3)) =
+      ((c._1, c._2), (c._3, c._4, c._5))
+    
+  }
+  implicit def `T2+T4`[L1, L2, R1, R2, R3, R4]: Composition.Aux[(L1, L2), (R1, R2, R3, R4), (L1, L2, R1, R2, R3, R4)] = new Composition[(L1, L2), (R1, R2, R3, R4)] {
+
+    override type Composed = (L1, L2, R1, R2, R3, R4)
+
+    def compose(l: (L1, L2), r: (R1, R2, R3, R4)): (L1, L2, R1, R2, R3, R4) =
+      (l._1, l._2, r._1, r._2, r._3, r._4)
+    
+    def decompose(c: (L1, L2, R1, R2, R3, R4)): ((L1, L2), (R1, R2, R3, R4)) =
+      ((c._1, c._2), (c._3, c._4, c._5, c._6))
+    
+  }
+  implicit def `T3+T2`[L1, L2, L3, R1, R2]: Composition.Aux[(L1, L2, L3), (R1, R2), (L1, L2, L3, R1, R2)] = new Composition[(L1, L2, L3), (R1, R2)] {
+
+    override type Composed = (L1, L2, L3, R1, R2)
+
+    def compose(l: (L1, L2, L3), r: (R1, R2)): (L1, L2, L3, R1, R2) =
+      (l._1, l._2, l._3, r._1, r._2)
+    
+    def decompose(c: (L1, L2, L3, R1, R2)): ((L1, L2, L3), (R1, R2)) =
+      ((c._1, c._2, c._3), (c._4, c._5))
+    
+  }
+  implicit def `T3+T3`[L1, L2, L3, R1, R2, R3]: Composition.Aux[(L1, L2, L3), (R1, R2, R3), (L1, L2, L3, R1, R2, R3)] = new Composition[(L1, L2, L3), (R1, R2, R3)] {
+
+    override type Composed = (L1, L2, L3, R1, R2, R3)
+
+    def compose(l: (L1, L2, L3), r: (R1, R2, R3)): (L1, L2, L3, R1, R2, R3) =
+      (l._1, l._2, l._3, r._1, r._2, r._3)
+    
+    def decompose(c: (L1, L2, L3, R1, R2, R3)): ((L1, L2, L3), (R1, R2, R3)) =
+      ((c._1, c._2, c._3), (c._4, c._5, c._6))
+    
+  }
+  implicit def `T4+T2`[L1, L2, L3, L4, R1, R2]: Composition.Aux[(L1, L2, L3, L4), (R1, R2), (L1, L2, L3, L4, R1, R2)] = new Composition[(L1, L2, L3, L4), (R1, R2)] {
+
+    override type Composed = (L1, L2, L3, L4, R1, R2)
+
+    def compose(l: (L1, L2, L3, L4), r: (R1, R2)): (L1, L2, L3, L4, R1, R2) =
+      (l._1, l._2, l._3, l._4, r._1, r._2)
+    
+    def decompose(c: (L1, L2, L3, L4, R1, R2)): ((L1, L2, L3, L4), (R1, R2)) =
+      ((c._1, c._2, c._3, c._4), (c._5, c._6))
     
   }
   implicit def `unit+A`[A]: Composition.Aux[Unit, A, A] = new Composition[Unit, A] {

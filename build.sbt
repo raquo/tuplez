@@ -46,7 +46,7 @@ lazy val `tuplez-full` =
       name := "tuplez-full",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, generateConcats = true, generatePrepends = true).generate()
+          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
@@ -69,7 +69,7 @@ lazy val `tuplez-full-light` =
       name := "tuplez-full-light",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, generateConcats = true, generatePrepends = true).generate()
+          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, splitPriorityAt = 6, generateConcats = true, generatePrepends = true).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
@@ -92,7 +92,7 @@ lazy val `tuplez-basic` =
       name := "tuplez-basic",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, generateConcats = false, generatePrepends = false).generate()
+          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 22, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
@@ -115,7 +115,7 @@ lazy val `tuplez-basic-light` =
       name := "tuplez-basic-light",
       Compile / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, generateConcats = false, generatePrepends = false).generate()
+          new TupleCompositionGenerator((Compile / sharedScalaSource).value, to = 10, splitPriorityAt = 6, generateConcats = false, generatePrepends = false).generate()
         )
       }.taskValue,
       Test / sourceGenerators += Def.task {
