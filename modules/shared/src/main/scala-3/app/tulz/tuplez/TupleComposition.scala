@@ -28,8 +28,6 @@ object Composition {
 
   type Aux[A, B, O] = Composition[A, B] { type Composed = O }
 
-  def apply[A, B](using inst: Composition[A, B]): Composition.Aux[A, B, inst.Composed] = inst
-
   given implied[A, B, O](using c: Compose.Aux[A, B, O], d: Decompose.Aux[A, B, O]): Composition.Aux[A, B, O] =
     new Composition[A, B] {
       override type Composed = O
@@ -78,8 +76,6 @@ trait Compose_Pri10 extends Compose_Pri0 {
 object Compose extends Compose_Pri10 {
 
   type Aux[A, B, O] = Compose[A, B] { type Composed = O }
-
-  def apply[A, B](using inst: Compose[A, B]): Compose.Aux[A, B, inst.Composed] = inst
 
   given `unit+unit`: Compose.Aux[Unit, Unit, Unit] = new Compose[Unit, Unit] {
 
@@ -159,13 +155,23 @@ trait Decompose_Pri10 extends Decompose_Pri0 {
 
   }
 
+  given `T+T`[T1 <: Tuple, T2 <: Tuple](using ValueOf[Tuple.Size[T1]]): Decompose.Aux[T1, T2, Tuple.Concat[T1, T2]] = new Decompose[T1, T2] {
+
+    override type Composed = Tuple.Concat[T1, T2]
+
+    def decompose(c: Tuple.Concat[T1, T2]): (T1, T2) = {
+      val size1 = valueOf[Tuple.Size[T1]]
+      val (left, right) = c.splitAt(size1)
+      (left.asInstanceOf[T1], right.asInstanceOf[T2])
+    }
+
+  }
+
 }
 
 object Decompose extends Decompose_Pri10 {
 
   type Aux[A, B, O] = Decompose[A, B] { type Composed = O }
-
-  def apply[A, B](using inst: Decompose.Aux[A, B, ?]): Decompose.Aux[A, B, inst.Composed] = inst
 
   given `unit+unit`: Decompose.Aux[Unit, Unit, Unit] = new Decompose[Unit, Unit] {
 
@@ -194,31 +200,16 @@ object Decompose extends Decompose_Pri10 {
 
   }
 
-  given `T+T`[T1 <: Tuple, T2 <: Tuple](using ValueOf[Tuple.Size[T1]]): Decompose.Aux[T1, T2, Tuple.Concat[T1, T2]] = new Decompose[T1, T2] {
-
-    override type Composed = Tuple.Concat[T1, T2]
-
-    def decompose(c: Tuple.Concat[T1, T2]): (T1, T2) = {
-      val size1 = valueOf[Tuple.Size[T1]]
-      val (left, right) = c.splitAt(size1)
-      (left.asInstanceOf[T1], right.asInstanceOf[T2])
-    }
-
-  }
-
 }
 
-//object Test {
-//
-//  val _ = summon[Decompose[Tuple1[Int], Int]]
-//
-//  val _ = Compose[Tuple1[Int], Int]
-//  val _ = Composition[Tuple1[Int], Int]
-//  val tuple: Tuple1[Int] = Tuple1(101)
-//  val expected: (Int, Int) = (101, 201)
-//  assert(expected == TupleComposition.compose(tuple, 201))
-////    assert((tuple, tuple) == Decompose[Tuple1[Int], Tuple1[Int]].decompose((101, 101)))
-//  assert((tuple, 201) == summon[Decompose.Aux[Tuple1[Int], Int, ?]].decompose((101, 201)))
-//  assert((tuple, 201) == summon[Decompose.Aux[Tuple1[Int], Int, ?]].decompose(expected))
-//
-//}
+
+object Test {
+
+  val tuple1 = (101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117)
+  val tuple2 = (201, 202, 203, 204, 205)
+  val expected = (101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 201, 202, 203, 204, 205)
+  assert(expected == TupleComposition.compose(tuple1, tuple2))
+  assert((tuple1, tuple2) == summon[Decompose[(Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int), (Int, Int, Int, Int, Int)]].decompose(expected))
+  assert((tuple1, tuple2) == summon[Composition[(Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int), (Int, Int, Int, Int, Int)]].decompose(expected))
+
+}

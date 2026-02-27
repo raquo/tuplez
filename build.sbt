@@ -1,5 +1,6 @@
 import sbt.librarymanagement.CrossVersion
-import com.typesafe.tools.mima.core._
+import com.typesafe.tools.mima.core.*
+import org.typelevel.scalacoptions.{ ScalacOption, ScalacOptions }
 
 inThisBuild(
   List(
@@ -66,7 +67,7 @@ lazy val `tuplez-full` =
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = true, testPrepends = true).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = true, testPrepends = true, scala3 = CrossVersion.partialVersion(scalaVersion.value).exists(_._1 == 3)).generate()
         )
       }.taskValue,
       description := "Scala tuple composition."
@@ -93,7 +94,7 @@ lazy val `tuplez-full-light` =
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = true, testPrepends = true).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = true, testPrepends = true, scala3 = CrossVersion.partialVersion(scalaVersion.value).exists(_._1 == 3)).generate()
         )
       }.taskValue,
       description := "Scala tuple composition."
@@ -120,7 +121,7 @@ lazy val `tuplez-basic` =
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = false, testPrepends = false).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 22, testConcats = false, testPrepends = false, scala3 = CrossVersion.partialVersion(scalaVersion.value).exists(_._1 == 3)).generate()
         )
       }.taskValue,
       description := "Scala tuple composition."
@@ -147,7 +148,7 @@ lazy val `tuplez-basic-light` =
       }.taskValue,
       Test / sourceGenerators += Def.task {
         Seq.concat(
-          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = false, testPrepends = false).generate()
+          new TupleCompositionTestGenerator((Test / sourceManaged).value, to = 10, testConcats = false, testPrepends = false, scala3 = CrossVersion.partialVersion(scalaVersion.value).exists(_._1 == 3)).generate()
         )
       }.taskValue,
       description := "Scala tuple composition."
@@ -184,6 +185,7 @@ lazy val commonSettings = Seq(
   ),
   scalacOptions := scalacOptions.value.filterNot(_ == "-Wdead-code"),
   Test / scalacOptions += "-Wconf:msg=a type was inferred to be `Any`:s",
+  tpolecatScalacOptions += ScalacOptions.explain
 )
 
 lazy val commonJsSettings = Seq(
@@ -215,6 +217,8 @@ lazy val root = project
   )
   .settings(noPublish)
   .aggregate(
+    `tuplez-shared`.js,
+    `tuplez-shared`.jvm,
     `tuplez-full`.js,
     `tuplez-full-light`.js,
     `tuplez-basic`.js,
