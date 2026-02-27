@@ -34,6 +34,18 @@ inThisBuild(
   )
 )
 
+// scala3-only implementation without codegen
+lazy val `tuplez-shared` =
+  crossProject(JVMPlatform, JSPlatform)
+    .crossType(CrossType.Pure)
+    .in(file("modules/shared"))
+    .settings(commonSettings)
+    .jsSettings(commonJsSettings)
+    .settings(
+      name := "tuplez-shared",
+      description := "Scala tuple composition, shared module with Scala 3 implementation."
+    )
+
 lazy val `tuplez-full` =
   crossProject(JVMPlatform, JSPlatform)
     .crossType(CrossType.Pure)
@@ -59,6 +71,7 @@ lazy val `tuplez-full` =
       }.taskValue,
       description := "Scala tuple composition."
     )
+    .dependsOn(`tuplez-shared`)
 
 lazy val `tuplez-full-light` =
   crossProject(JVMPlatform, JSPlatform)
@@ -85,6 +98,7 @@ lazy val `tuplez-full-light` =
       }.taskValue,
       description := "Scala tuple composition."
     )
+    .dependsOn(`tuplez-shared`)
 
 lazy val `tuplez-basic` =
   crossProject(JVMPlatform, JSPlatform)
@@ -111,6 +125,7 @@ lazy val `tuplez-basic` =
       }.taskValue,
       description := "Scala tuple composition."
     )
+    .dependsOn(`tuplez-shared`)
 
 lazy val `tuplez-basic-light` =
   crossProject(JVMPlatform, JSPlatform)
@@ -137,6 +152,7 @@ lazy val `tuplez-basic-light` =
       }.taskValue,
       description := "Scala tuple composition."
     )
+    .dependsOn(`tuplez-shared`)
 
 lazy val `tuplez-apply` =
   crossProject(JVMPlatform, JSPlatform)

@@ -3079,7 +3079,7 @@ trait Composition_Pri10 extends Composition_Pri9 {
 
 }
 
-object Composition extends Composition_Pri10 {
+trait Composition_PriTop extends Composition_Pri10 {
   type Aux[A, B, O] = Composition[A, B] { type Composed = O }
 
   implicit def `unit+unit`: Composition.Aux[Unit, Unit, Unit] = new Composition[Unit, Unit] {
@@ -3095,3 +3095,7 @@ object Composition extends Composition_Pri10 {
   }
 
 }
+
+object Composition extends Composition_PriTop
+object Compose extends Composition_PriTop
+object Decompose extends Composition_PriTop

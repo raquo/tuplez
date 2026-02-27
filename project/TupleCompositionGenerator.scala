@@ -97,7 +97,7 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, splitPriorityAt: I
 
     println()
 
-    enter("""object Composition extends Composition_Pri10 {""")("}") {
+    enter("""trait Composition_PriTop extends Composition_Pri10 {""")("}") {
       println("""type Aux[A, B, O] = Composition[A, B] { type Composed = O }""")
       println()
 
@@ -113,6 +113,10 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, splitPriorityAt: I
 
       println()
     }
+    println()
+    println("""object Composition extends Composition_PriTop""")
+    println("""object Compose extends Composition_PriTop""")
+    println("""object Decompose extends Composition_PriTop""")
   }
 
   def generateSizeAndScalar(minArity: Int, maxArity: Int, priority: Int, extendsPriority: Int): Unit = {
