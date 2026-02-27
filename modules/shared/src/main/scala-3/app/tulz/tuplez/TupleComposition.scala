@@ -201,15 +201,3 @@ object Decompose extends Decompose_Pri10 {
   }
 
 }
-
-
-object Test {
-
-  val tuple1 = (101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117)
-  val tuple2 = (201, 202, 203, 204, 205)
-  val expected = (101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 201, 202, 203, 204, 205)
-  assert(expected == TupleComposition.compose(tuple1, tuple2))
-  assert((tuple1, tuple2) == summon[Decompose[(Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int), (Int, Int, Int, Int, Int)]].decompose(expected))
-  assert((tuple1, tuple2) == summon[Composition[(Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int, Int), (Int, Int, Int, Int, Int)]].decompose(expected))
-
-}
