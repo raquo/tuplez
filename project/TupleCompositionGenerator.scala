@@ -39,10 +39,17 @@ class TupleCompositionGenerator(sourceManaged: File, to: Int, splitPriorityAt: I
       println()
     }
     println()
-    enter("""abstract class Composition[L, R] {""")("}") {
+
+    enter("""trait Compose[-L, -R] {""")("}") {
       println("""type Composed""")
       println("""def compose(a: L, b: R): Composed""")
+    }
+    enter("""trait Decompose[+L, +R] {""")("}") {
+      println("""type Composed""")
       println("""def decompose(c: Composed): (L, R)""")
+    }
+    enter("""abstract class Composition[L, R] extends Compose[L, R] with Decompose[L, R] {""")("}") {
+      println("""type Composed""")
     }
     println()
     enter("""trait Composition_Pri0 {""")("}") {

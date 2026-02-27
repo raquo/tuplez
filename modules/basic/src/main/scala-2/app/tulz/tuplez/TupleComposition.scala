@@ -7,10 +7,16 @@ object TupleComposition {
 
 }
 
-abstract class Composition[L, R] {
+trait Compose[-L, -R] {
   type Composed
   def compose(a: L, b: R): Composed
+}
+trait Decompose[+L, +R] {
+  type Composed
   def decompose(c: Composed): (L, R)
+}
+abstract class Composition[L, R] extends Compose[L, R] with Decompose[L, R] {
+  type Composed
 }
 
 trait Composition_Pri0 {
