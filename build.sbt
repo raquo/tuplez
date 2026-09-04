@@ -16,6 +16,8 @@ inThisBuild(
       ScalaVersions.v213,
       ScalaVersions.v212
     ),
+    version := buildKitDynVer.version.value,
+    dynver  := buildKitDynVer.dynver.value,
     ThisBuild / versionScheme := Some("early-semver"),
     versionPolicyIntention    := Compatibility.BinaryCompatible,
     mimaBinaryIssueFilters ++= Seq(
