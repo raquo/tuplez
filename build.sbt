@@ -230,3 +230,26 @@ lazy val root = project
     `tuplez-basic-light`.jvm,
     `tuplez-apply`.jvm,
   )
+
+/**
+  * Compile-only reproduction of a Scala pattern-match reachability bug.
+  *
+  * If Tuplez triggers the bug, this project will fail to compile due to fatal warnings.
+  */
+lazy val tuplezScala3Bug =
+  project
+    .in(file("modules/scala3-bug"))
+    .dependsOn(`tuplez-full`.jvm)
+    .settings(noPublish)
+    .settings(
+      resolvers += Resolver.scalaNightlyRepository,
+      scalaVersion       := buggyScalaVersion,
+      crossScalaVersions := Seq(buggyScalaVersion),
+      scalacOptions += "-Werror", // requirement for the compilation to fail.
+      description := "Compile-only reproduction of a Scala unreachable-case false positive."
+    )
+
+lazy val buggyScalaVersion =
+  "3.9.0"
+  //"3.8.4"
+  //"3.10.1-RC1-bin-20260904-3dd457e-NIGHTLY
